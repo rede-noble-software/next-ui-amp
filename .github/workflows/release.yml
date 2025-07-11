@@ -1,0 +1,37 @@
+name: Deploy to Release Branch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-to-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for tags
+      
+      - name: Get current ref
+        id: get_ref
+        run: |
+          echo "ref=${GITHUB_REF#refs/}" >> $GITHUB_OUTPUT
+          echo "Running from: ${GITHUB_REF#refs/}"
+      
+      - name: Force update release branch
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Force push current commit to release branch
+          git push origin HEAD:release --force
+          echo "✅ Release branch updated to point to: ${{ steps.get_ref.outputs.ref }}"
+      
+      - name: Summary
+        run: |
+          echo "✅ Successfully updated release branch"
+          echo "🚀 AWS Amplify will now deploy from the release branch"
+          echo "📋 Current commit details:"
+          git show --no-patch --format="Commit: %H%nAuthor: %an%nDate: %ad%nMessage: %s" HEAD

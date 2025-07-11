@@ -1,0 +1,17 @@
+# Git configuration to skip release branch during fetch/pull
+# This is just documentation - run these commands manually:
+
+git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+git config --add remote.origin.fetch "^refs/heads/release"
+
+# Or add to your local .git/config file:
+# [remote "origin"]
+#     fetch = +refs/heads/*:refs/remotes/origin/*
+#     fetch = ^refs/heads/release
+
+# To verify the configuration:
+git config --get-all remote.origin.fetch
+
+# Expected output:
+# +refs/heads/*:refs/remotes/origin/*
+# ^refs/heads/release
