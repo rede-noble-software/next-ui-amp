@@ -3,6 +3,9 @@ name: Deploy to Release Branch
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write  # Required to push to branches
+
 jobs:
   deploy-to-release:
     runs-on: ubuntu-latest
@@ -12,6 +15,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch all history for tags
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use the default GitHub token
       
       - name: Get current ref
         id: get_ref
