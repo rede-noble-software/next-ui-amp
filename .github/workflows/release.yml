@@ -29,9 +29,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
+          # Get tag name from current ref
+          TAG_NAME=$(echo "${{ steps.get_ref.outputs.ref }}" | sed 's/tags\///')
+          
+          # Amend the last commit with tag name
+          git commit --amend -m "Release: ${TAG_NAME}" --no-edit
+          
           # Force push current commit to release branch
           git push origin HEAD:release --force
           echo "✅ Release branch updated to point to: ${{ steps.get_ref.outputs.ref }}"
+          echo "✅ Commit message amended to: Release: ${TAG_NAME}"
       
       - name: Summary
         run: |
