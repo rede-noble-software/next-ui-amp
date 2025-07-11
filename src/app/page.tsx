@@ -6,7 +6,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.hero}>
         <h1 className={styles.title}>
-          Welcome to <span className={styles.highlight}>Next.js 1.3</span>
+          Welcome to <span className={styles.highlight}>Next.js 1.5</span>
         </h1>
         <p className={styles.description}>
           A full-stack Next.js application with server-side rendering, ready for AWS Amplify deployment
